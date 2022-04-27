@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{CA2BB0EB-407A-4687-BC8C-1900C0D21903}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="src\TelegramStickerBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="TelegramStickerBrowser">
+        <MSBuild Projects="src\TelegramStickerBrowser.dproj"/>
+    </Target>
+    <Target Name="TelegramStickerBrowser:Clean">
+        <MSBuild Projects="src\TelegramStickerBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TelegramStickerBrowser:Make">
+        <MSBuild Projects="src\TelegramStickerBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="TelegramStickerBrowser"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="TelegramStickerBrowser:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="TelegramStickerBrowser:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
