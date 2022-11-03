@@ -74,7 +74,7 @@ end;
 
 procedure TForm12.ckLoopChange(Sender: TObject);
 begin
-  SkAnimatedImage1.Loop := ckLoop.IsChecked;
+  SkAnimatedImage1.Animation.Loop := ckLoop.IsChecked;
   ckAnimate.IsChecked := ckLoop.IsChecked;
 end;
 
@@ -138,7 +138,7 @@ procedure TForm12.SkAnimatedImage1AnimationDraw(ASender: TObject;
   const ACanvas: ISkCanvas; const ADest: TRectF; const AProgress: Double;
   const AOpacity: Single);
 begin
-  TrackBar1.Value := SkAnimatedImage1.Progress * 100;
+  TrackBar1.Value := SkAnimatedImage1.Animation.Progress * 100;
 end;
 
 procedure TForm12.SkAnimatedImageClick(Sender: TObject);
@@ -165,7 +165,7 @@ end;
 
 procedure TForm12.TrackBar1Change(Sender: TObject);
 begin
-  SkAnimatedImage1.Progress := TrackBar1.Value / 100;
+  SkAnimatedImage1.Animation.Progress := TrackBar1.Value / 100;
 end;
 
 procedure TForm12.TrackBar1Click(Sender: TObject);
