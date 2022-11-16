@@ -9,6 +9,7 @@ object Form12: TForm12
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object HorzScrollBox1: THorzScrollBox
     Align = Top
@@ -81,7 +82,8 @@ object Form12: TForm12
       Size.Width = 528.000000000000000000
       Size.Height = 477.000000000000000000
       Size.PlatformDefault = False
-      OnAnimationDraw = SkAnimatedImage1AnimationDraw
+      Animation.StartFromCurrent = True
+      OnAnimationProcess = SkAnimatedImage1AnimationProcess
       Data = {
         1F8B0800000000000203E57DDBAE645772DCAF10FD5CE760DD2F7CB3FD600386
         6003F21BC18736C9D1101A92836E4AB620E8DFBDE292BBAA7991355237757428

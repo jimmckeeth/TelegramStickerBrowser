@@ -27,9 +27,6 @@ type
     OpenDialog1: TOpenDialog;
     SpeedButton2: TSpeedButton;
     procedure TrackBar1Change(Sender: TObject);
-    procedure SkAnimatedImage1AnimationDraw(ASender: TObject;
-      const ACanvas: ISkCanvas; const ADest: TRectF;
-      const AProgress: Double; const AOpacity: Single);
     procedure FormCreate(Sender: TObject);
     procedure TrackBar1Click(Sender: TObject);
     procedure TrackBar1KeyDown(Sender: TObject; var Key: Word;
@@ -43,6 +40,8 @@ type
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure EditPathChange(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure SkAnimatedImage1AnimationProcess(Sender: TObject);
   private
     { Private declarations }
     FPreviewImages: TObjectList<TSkAnimatedImage>;
@@ -67,15 +66,24 @@ begin
   LoadDirectories;
 end;
 
+procedure TForm12.FormDestroy(Sender: TObject);
+begin
+  FPreviewImages.Free;
+end;
+
 procedure TForm12.ckAnimateChange(Sender: TObject);
 begin
-  SkAnimatedImage1.Enabled := ckAnimate.IsChecked;
+  if ckAnimate.IsChecked then
+    SkAnimatedImage1.Animation.Start
+  else
+    SkAnimatedImage1.Animation.StopAtCurrent;
 end;
 
 procedure TForm12.ckLoopChange(Sender: TObject);
 begin
   SkAnimatedImage1.Animation.Loop := ckLoop.IsChecked;
-  ckAnimate.IsChecked := ckLoop.IsChecked;
+  if ckLoop.IsChecked and ckAnimate.IsChecked and not SkAnimatedImage1.Animation.Running then
+    SkAnimatedImage1.Animation.Start;
 end;
 
 procedure TForm12.EditPathChange(Sender: TObject);
@@ -103,47 +111,51 @@ end;
 
 procedure TForm12.LoadTgs(const LoadFirst: Boolean = True);
 begin
-  FPreviewImages.Clear;
+  HorzScrollBox1.BeginUpdate;
+  try
+    FPreviewImages.Clear;
 
-  if LoadFirst then
-    SkAnimatedImage1.Source.Data := [];
+    if LoadFirst then
+      SkAnimatedImage1.Source.Data := [];
 
-  var jsonFiles := TDirectory.GetFiles(TPath.Combine(EditPath.Text,
-                    ListBox1.Items[ListBox1.ItemIndex]),'*.json');
-  var LottieFiles := TDirectory.GetFiles(TPath.Combine(EditPath.Text,
-                    ListBox1.Items[ListBox1.ItemIndex]),'*.lottie');
-  var tgsFiles := TDirectory.GetFiles(TPath.Combine(EditPath.Text,
-                    ListBox1.Items[ListBox1.ItemIndex]),'*.tgs');
+    var jsonFiles := TDirectory.GetFiles(TPath.Combine(EditPath.Text,
+                      ListBox1.Items[ListBox1.ItemIndex]),'*.json');
+    var LottieFiles := TDirectory.GetFiles(TPath.Combine(EditPath.Text,
+                      ListBox1.Items[ListBox1.ItemIndex]),'*.lottie');
+    var tgsFiles := TDirectory.GetFiles(TPath.Combine(EditPath.Text,
+                      ListBox1.Items[ListBox1.ItemIndex]),'*.tgs');
 
-  for var tgs in jsonFiles + LottieFiles + tgsFiles do
-  begin
-    var sk := TSkAnimatedImage.Create(nil);
-    FPreviewImages.Add(sk);
-    sk.Width := 100;
-    sk.Height := 100;
-    sk.LoadFromFile(tgs);
-    sk.Parent := HorzScrollBox1;
-    sk.Align := TAlignLayout.Left;
-    sk.OnClick := SkAnimatedImageClick;
-    sk.HitTest := True;
+    for var tgs in jsonFiles + LottieFiles + tgsFiles do
+    begin
+      var sk := TSkAnimatedImage.Create(nil);
+      FPreviewImages.Add(sk);
+      sk.Width := 100;
+      sk.Height := 100;
+      sk.LoadFromFile(tgs);
+      sk.Align := TAlignLayout.Left;
+      sk.Parent := HorzScrollBox1;
+      sk.OnClick := SkAnimatedImageClick;
+      sk.HitTest := True;
 
-    if LoadFirst and (length(SkAnimatedImage1.Source.Data) = 0) then
-      SkAnimatedImage1.Source.Assign(sk.Source);
+      if LoadFirst and (length(SkAnimatedImage1.Source.Data) = 0) then
+        SkAnimatedImage1.Source.Assign(sk.Source);
 
+    end;
+  finally
+    HorzScrollBox1.EndUpdate;
   end;
 
 end;
 
-procedure TForm12.SkAnimatedImage1AnimationDraw(ASender: TObject;
-  const ACanvas: ISkCanvas; const ADest: TRectF; const AProgress: Double;
-  const AOpacity: Single);
+procedure TForm12.SkAnimatedImage1AnimationProcess(Sender: TObject);
 begin
   TrackBar1.Value := SkAnimatedImage1.Animation.Progress * 100;
 end;
 
 procedure TForm12.SkAnimatedImageClick(Sender: TObject);
 begin
-SkAnimatedImage1.Source.Assign(TSkAnimatedImage(Sender).Source);
+  SkAnimatedImage1.Source.Assign(TSkAnimatedImage(Sender).Source);
+  SkAnimatedImage1.Animation.Progress := 0;
 end;
 
 procedure TForm12.SpeedButton1Click(Sender: TObject);
@@ -151,7 +163,7 @@ begin
   ListBox1.ItemIndex := Random(ListBox1.Items.Count);
   LoadTgs(False);
   SkAnimatedImage1.Source.Assign(
-    FPreviewImages[Random(FPreviewImages.Count)].Source)
+    FPreviewImages[Random(FPreviewImages.Count)].Source);
 end;
 
 procedure TForm12.SpeedButton2Click(Sender: TObject);
@@ -165,7 +177,8 @@ end;
 
 procedure TForm12.TrackBar1Change(Sender: TObject);
 begin
-  SkAnimatedImage1.Animation.Progress := TrackBar1.Value / 100;
+  if TrackBar1.Tracking then
+    SkAnimatedImage1.Animation.Progress := TrackBar1.Value / 100;
 end;
 
 procedure TForm12.TrackBar1Click(Sender: TObject);
