@@ -68,7 +68,12 @@ end;
 
 procedure TForm12.FormDestroy(Sender: TObject);
 begin
-  FPreviewImages.Free;
+  HorzScrollBox1.BeginUpdate;
+  try
+    FPreviewImages.Free;
+  finally
+    HorzScrollBox1.EndUpdate;
+  end;
 end;
 
 procedure TForm12.ckAnimateChange(Sender: TObject);
@@ -98,15 +103,20 @@ end;
 
 procedure TForm12.LoadDirectories();
 begin
-  ListBox1.Items.Clear;
-  FPreviewImages.Clear;
+  HorzScrollBox1.BeginUpdate;
+  try
+    ListBox1.Items.Clear;
+    FPreviewImages.Clear;
 
-  var dirs := TDirectory.GetDirectories(EditPath.Text);
-  for var dir in dirs do
-    ListBox1.Items.Add(TPath.GetFileName(dir));
-  ListBox1.Items.Add('.');
-  ListBox1.ItemIndex := 0;
-  LoadTgs;
+    var dirs := TDirectory.GetDirectories(EditPath.Text);
+    for var dir in dirs do
+      ListBox1.Items.Add(TPath.GetFileName(dir));
+    ListBox1.Items.Add('.');
+    ListBox1.ItemIndex := 0;
+    LoadTgs;
+  finally
+    HorzScrollBox1.EndUpdate;
+  end;
 end;
 
 procedure TForm12.LoadTgs(const LoadFirst: Boolean = True);
