@@ -2,8 +2,8 @@ object Form12: TForm12
   Left = 0
   Top = 0
   Caption = 'Skia Telegram Sticker Browser'
-  ClientHeight = 685
-  ClientWidth = 657
+  ClientHeight = 684
+  ClientWidth = 656
   StyleBook = StyleBook1
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -14,23 +14,23 @@ object Form12: TForm12
   object HorzScrollBox1: THorzScrollBox
     Align = Top
     Position.Y = 42.000000000000000000
-    Size.Width = 657.000000000000000000
+    Size.Width = 656.000000000000000000
     Size.Height = 100.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    Viewport.Width = 657.000000000000000000
+    Viewport.Width = 656.000000000000000000
     Viewport.Height = 100.000000000000000000
   end
   object Layout2: TLayout
     Align = Client
-    Size.Width = 528.000000000000000000
-    Size.Height = 543.000000000000000000
+    Size.Width = 527.000000000000000000
+    Size.Height = 542.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
     object Layout1: TLayout
       Align = Bottom
-      Position.Y = 477.000000000000000000
-      Size.Width = 528.000000000000000000
+      Position.Y = 476.000000000000000000
+      Size.Width = 527.000000000000000000
       Size.Height = 27.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 3
@@ -67,8 +67,8 @@ object Form12: TForm12
       Margins.Right = 10.000000000000000000
       Margins.Bottom = 10.000000000000000000
       Position.X = 10.000000000000000000
-      Position.Y = 509.000000000000000000
-      Size.Width = 508.000000000000000000
+      Position.Y = 508.000000000000000000
+      Size.Width = 507.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
@@ -79,8 +79,8 @@ object Form12: TForm12
     end
     object SkAnimatedImage1: TSkAnimatedImage
       Align = Client
-      Size.Width = 528.000000000000000000
-      Size.Height = 477.000000000000000000
+      Size.Width = 527.000000000000000000
+      Size.Height = 476.000000000000000000
       Size.PlatformDefault = False
       Animation.StartFromCurrent = True
       OnAnimationProcess = SkAnimatedImage1AnimationProcess
@@ -743,13 +743,13 @@ object Form12: TForm12
     Align = Left
     Position.Y = 142.000000000000000000
     Size.Width = 129.000000000000000000
-    Size.Height = 543.000000000000000000
+    Size.Height = 542.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 3
     object ListBox1: TListBox
       Align = Client
       Size.Width = 129.000000000000000000
-      Size.Height = 543.000000000000000000
+      Size.Height = 542.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       OnClick = ListBox1Click
@@ -759,12 +759,12 @@ object Form12: TForm12
       DefaultItemStyles.GroupHeaderStyle = ''
       DefaultItemStyles.GroupFooterStyle = ''
       Viewport.Width = 125.000000000000000000
-      Viewport.Height = 539.000000000000000000
+      Viewport.Height = 538.000000000000000000
     end
   end
   object Layout4: TLayout
     Align = MostTop
-    Size.Width = 657.000000000000000000
+    Size.Width = 656.000000000000000000
     Size.Height = 42.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 4
@@ -775,7 +775,7 @@ object Form12: TForm12
       Text = '..\..\..\Stickers'
       Position.X = 82.000000000000000000
       Position.Y = 8.000000000000000000
-      Size.Width = 463.000000000000000000
+      Size.Width = 462.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       OnChange = EditPathChange
@@ -788,22 +788,24 @@ object Form12: TForm12
     end
     object SpeedButton1: TSpeedButton
       Anchors = [akTop, akRight]
-      Position.X = 616.000000000000000000
+      Position.X = 615.000000000000000000
       Position.Y = 8.000000000000000000
       Size.Width = 33.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       Text = 'Rnd'
+      TextSettings.Trimming = None
       OnClick = SpeedButton1Click
     end
     object SpeedButton2: TSpeedButton
       Anchors = [akTop, akRight]
-      Position.X = 553.000000000000000000
+      Position.X = 552.000000000000000000
       Position.Y = 8.000000000000000000
       Size.Width = 55.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       Text = 'Browse'
+      TextSettings.Trimming = None
       OnClick = SpeedButton2Click
     end
   end
