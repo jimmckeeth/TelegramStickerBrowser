@@ -27,7 +27,6 @@ type
     OpenDialog1: TOpenDialog;
     SpeedButton2: TSpeedButton;
     procedure TrackBar1Change(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure TrackBar1Click(Sender: TObject);
     procedure TrackBar1KeyDown(Sender: TObject; var Key: Word;
       var KeyChar: Char; Shift: TShiftState);
@@ -42,6 +41,7 @@ type
     procedure EditPathChange(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SkAnimatedImage1AnimationProcess(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FPreviewImages: TObjectList<TSkAnimatedImage>;
@@ -60,12 +60,6 @@ implementation
 
 uses IOUtils;
 
-procedure TForm12.FormCreate(Sender: TObject);
-begin
-  FPreviewImages := TObjectList<TSkAnimatedImage>.Create(True);
-  LoadDirectories;
-end;
-
 procedure TForm12.FormDestroy(Sender: TObject);
 begin
   HorzScrollBox1.BeginUpdate;
@@ -74,6 +68,12 @@ begin
   finally
     HorzScrollBox1.EndUpdate;
   end;
+end;
+
+procedure TForm12.FormShow(Sender: TObject);
+begin
+  FPreviewImages := TObjectList<TSkAnimatedImage>.Create(True);
+  LoadDirectories;
 end;
 
 procedure TForm12.ckAnimateChange(Sender: TObject);
@@ -103,19 +103,21 @@ end;
 
 procedure TForm12.LoadDirectories();
 begin
-  HorzScrollBox1.BeginUpdate;
-  try
-    ListBox1.Items.Clear;
-    FPreviewImages.Clear;
-
-    var dirs := TDirectory.GetDirectories(EditPath.Text);
-    for var dir in dirs do
-      ListBox1.Items.Add(TPath.GetFileName(dir));
-    ListBox1.Items.Add('.');
-    ListBox1.ItemIndex := 0;
-    LoadTgs;
-  finally
-    HorzScrollBox1.EndUpdate;
+  if TDirectory.Exists(EditPath.Text) then
+  begin
+    HorzScrollBox1.BeginUpdate;
+    try
+      ListBox1.Items.Clear;
+      FPreviewImages.Clear;
+      var dirs := TDirectory.GetDirectories(EditPath.Text);
+      for var dir in dirs do
+        ListBox1.Items.Add(TPath.GetFileName(dir));
+      ListBox1.Items.Add('.');
+      ListBox1.ItemIndex := 0;
+      LoadTgs;
+    finally
+      HorzScrollBox1.EndUpdate;
+    end;
   end;
 end;
 
@@ -170,10 +172,13 @@ end;
 
 procedure TForm12.SpeedButton1Click(Sender: TObject);
 begin
-  ListBox1.ItemIndex := Random(ListBox1.Items.Count);
-  LoadTgs(False);
-  SkAnimatedImage1.Source.Assign(
-    FPreviewImages[Random(FPreviewImages.Count)].Source);
+  if ListBox1.Items.Count > 0 then
+  begin
+    ListBox1.ItemIndex := Random(ListBox1.Items.Count);
+    LoadTgs(False);
+    SkAnimatedImage1.Source.Assign(
+      FPreviewImages[Random(FPreviewImages.Count)].Source);
+  end;
 end;
 
 procedure TForm12.SpeedButton2Click(Sender: TObject);

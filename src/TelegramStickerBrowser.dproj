@@ -9,7 +9,7 @@
         <ProjectGuid>{64EBA922-FF0A-4A32-ABD0-2D2E921962E6}</ProjectGuid>
         <ProjectName Condition="'$(ProjectName)'==''">TelegramStickerBrowser</ProjectName>
         <ProjectVersion>20.1</ProjectVersion>
-        <TargetedPlatforms>693267</TargetedPlatforms>
+        <TargetedPlatforms>693395</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -303,11 +303,12 @@
             <Platforms>
                 <Platform value="Android">True</Platform>
                 <Platform value="Android64">True</Platform>
-                <Platform value="Linux64">False</Platform>
+                <Platform value="Linux64">True</Platform>
                 <Platform value="OSX64">True</Platform>
                 <Platform value="OSXARM64">True</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
+                <Platform value="Win64x">False</Platform>
                 <Platform value="iOSDevice64">True</Platform>
                 <Platform value="iOSSimARM64">True</Platform>
             </Platforms>

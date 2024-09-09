@@ -8,8 +8,8 @@ object Form12: TForm12
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnShow = FormShow
   DesignerMasterStyle = 0
   object HorzScrollBox1: THorzScrollBox
     Align = Top
@@ -772,7 +772,7 @@ object Form12: TForm12
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
-      Text = '..\..\..\Stickers'
+      Text = 'Stickers'
       Position.X = 82.000000000000000000
       Position.Y = 8.000000000000000000
       Size.Width = 462.000000000000000000
@@ -14191,7 +14191,7 @@ object Form12: TForm12
       'Telegram Stickers (*.tgs)|*.tgs|Lottie Files (*.json; *.lottie)|' +
       '*.json; *.lottie|All supported|*.json; *.lottie; *.tgs|Any files' +
       '|*.*'
-    Options = [ofHideReadOnly, ofPathMustExist, ofEnableSizing]
+    Options = [ofNoValidate, ofPathMustExist, ofNoDereferenceLinks, ofEnableSizing]
     Left = 354
     Top = 64
   end
